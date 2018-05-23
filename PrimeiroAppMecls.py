@@ -2,16 +2,40 @@ from tkinter import *
 #Aprender a colocar foto
 #widgets --> elementos na tela !
 def entrarLogin():
-    dicionario={'mecls':('123','Estela','19','1')}
+    dicionarioLogin={'adm':('adm','Estela','19','1')}
                 ##LOGIN:(SENHA,NOME,IDADE,NIVEL)##
-    if eLogin.get() in dicionario and eSenha.get() == dicionario[eLogin.get()][0]:
+    if eLogin.get() in dicionarioLogin and eSenha.get() == dicionarioLogin[eLogin.get()][0]:
         i2=Tk()
+        i2.title('OnFood')
+        i2.geometry('800x600')
         textoResposta1=Label(i2,text='Seja Bem vindo !')
         textoResposta1.pack()
+        frameI2= Frame(i2, bg= 'blue')
+        
+        bCriarUsuario=Button(frameI2,text='Cadastrar usuario',command=novoCadastro)
+        bCriarUsuario.pack(side= LEFT,padx= 2,pady=1)
+
+        bCriarCardapio= Button(frameI2, text = 'Cardapio do dia')
+        bCriarCardapio.pack(side= LEFT,padx= 2,pady=2)
+
+        bVerCardapio= Button(frameI2, text= 'Cardapio mensal')
+        bVerCardapio.pack(side= LEFT,padx= 2,pady=3)
+
+        bListaProdutos =Button(frameI2, text= 'Lista de produtos ')
+        bListaProdutos.pack(side= LEFT,padx= 2,pady=4)
+
+        bProdutosUtilizados= Button(frameI2,text= 'Produtos utilizados' )
+        bProdutosUtilizados.pack(side= LEFT,padx= 2,pady=5)
+
+        bAdicionarProdutos= Button(frameI2,text= 'Adicionar novos produtos')
+        bAdicionarProdutos.pack(side= LEFT,padx= 1,pady=6)
+
+        frameI2.pack(side= TOP, fill=X)
+        subMenu= Menu(i2)
         i2.mainloop()
     else:
         textoResposta['text']='Senha ou login invalidos'
-    return dicionario
+    return dicionarioLogin
 
 def guardarElementosArq(arq):
     dicElementos=criarPessoas()
@@ -24,7 +48,7 @@ def guardarElementosArq(arq):
     
 def criarPessoas():
     dicionarioNome=criarPessoa()
-    if not eEmail in dicionarioNome:
+    if not eEmail.get() in dicionarioNome:
         dicionarioNome[eEmail.get()]=(eSenha.get(),eNome.get(),eIdade.get(),eNivel.get())
     else:
         resposta= Label(i3,text='Email já existente ')
@@ -75,6 +99,20 @@ i1= Tk()
 i1.geometry('500x400')
 i1.title('OnFood')
 
+fontePadrao=('Arial','10')
+##NAÕ ESQUECER DESSA PARTE!!
+menu = Menu(i1)
+
+i1.config(menu = menu)
+
+subMenu= Menu(menu)
+
+menu.add_cascade(label= 'Opções ', menu = subMenu)
+subMenu.add_command(label='configurações')
+subMenu.add_command(label='recuperar a senha') 
+subMenu.add_command(label= 'salvar')
+subMenu.add_separator()
+#""""!!! a
 texto = Label (i1,text='Seja bem vindo ao OnFood!!',fg='blue',font='14')
 texto.pack()
 
@@ -83,17 +121,28 @@ login.place(x=50,y=100)
 eLogin=Entry(i1)
 eLogin.place(x=50,y=120)
 
-senha=Label(i1,text='Senha')
+senha=Label(i1,text='Senha',font =fontePadrao)
 senha.place(x=50,y=145)
 eSenha=Entry(i1)
 eSenha.place(x=50,y=165)
+eSenha["font"] = fontePadrao
+eSenha["show"] = "*"
+
+
 
 
 bEntrar= Button(i1,text='Entrar',command=entrarLogin,width=10)
 bEntrar.place(x=50,y=190)
 
-bCriar=Button(i1,text='criar',command=novoCadastro,width=10)
-bCriar.place(x=130,y=190)
+##tentar!!!
+fotoInicio= PhotoImage(file='C:Users\br\Desktop\projetoMecls\food.png')
+
+labelImg= Label(i1,image = fotoInicio,text='aq')
+labelImg.pack()
+
+## É A IMAGEM
+
+
 textoResposta=Label(i1,text='')
 textoResposta.place(x=70,y=230)
 
@@ -107,3 +156,4 @@ textoResposta.place(x=70,y=230)
 ##SEMPRO COLOCAR ##PACK ##EM ALGUM ELEMENTO QUE EU QUERO MOSTRAR NA TELA 
 
 i1.mainloop()
+
