@@ -6,6 +6,7 @@ Discente: Maria Estela da Costa e Lima Souza (mecls)
 Email: mecls@cin.ufpe.br
 Data: 24/05/2018"""
 
+from datetime import datetime
 from tkinter import *
 import random
 #Aprender a colocar foto
@@ -110,8 +111,8 @@ def reescreverElementosDict(arq):
 ###OS DICIONARIOS ESTÃO SENDO USADAS COMO GLOBAL ###
 ####
 
-dicionarioLogin={'adm':('adm','Estela','19','1')}
-dicionarioAlimento=reescreverElementosDict('alimentos.txt')
+dicionarioLogin=reescreverElementosDict('usuarios.txt')
+dicionarioAlimento=reescreverElementosDict('alimentosTotais.txt')
 
 ####
 '----------- entrar no login ---------------------'
@@ -147,11 +148,15 @@ def entrarLogin():
         eNivel.pack()
             
         def criarPessoas():
-            '''Analisa se o login é existente no dict '''
+            
+            '''Analisa se o login é existente no dict,caso ele seja adiciona no arquivo o novo usuario, caso o usuario já exista, ele avisa na interface!
+                Também tem a função de sair, caso o usuario não queira mais cadastrar algum usuario novo'''
+            novoUsuario={}
             if not eEmail.get() in dicionarioLogin:
                 dicionarioLogin[eEmail.get()]=(eSenha.get(),eNome.get(),eIdade.get(),eNivel.get())
                 
-                guardarElementosArq('usuarios.txt',dicionarioLogin)
+                novoUsuario[eEmail.get()]=(eSenha.get(),eNome.get(),eIdade.get(),eNivel.get())
+                guardarElementosArq('usuarios.txt',novoUsuario)
                 x=Label(i3,text='Usuario Salvo !',bg='white',font=10)
                 x.pack()
                   
@@ -171,149 +176,219 @@ def entrarLogin():
         i3.pack()
             
     '-------- CADASTRO ALIMENTOS---------'
-    def cadastroAlimentos():
-        ''' É possivel cadastrar um novo elemento '''
+    def cadastroAlimentos(): 
+        ''' É possivel cadastrar um novo alimento '''
 
-        i4=Frame(i2,bg='white')
+        i3=Frame(i2,bg='white')
         #dictAlimento={alimento:(qnt,validade,tipo,preço)}
-        alimento=Label(i4,text='Alimento',bg='white',font=15)
-        alimentoE=Entry(i4)
+        alimento=Label(i3,text='Alimento',bg='white',font=15)
+        alimentoE=Entry(i3)
         alimento.pack()
         alimentoE.pack()
 
-        qntAlimento=Label(i4,text='Quantidade de produtos disponiveis',bg='white',font=15)
-        qntAlimentoE=Entry(i4)
+        qntAlimento=Label(i3,text='Quantidade de produtos disponiveis',bg='white',font=15)
+        qntAlimentoE=Entry(i3)
         qntAlimento.pack()
         qntAlimentoE.pack()
 
-        validadeProdutos=Label(i4,text='Data de validade',bg='white',font=15)
-        validadeProdutosE=Entry(i4)
+        validadeProdutos=Label(i3,text='Data de validade',bg='white',font=15)
+        validadeProdutosE=Entry(i3)
         validadeProdutos.pack()
         validadeProdutosE.pack()
 
-        tipoProduto= Label(i4,text='Tipo de produto',bg='white',font=15)
-        tipoProdutoE=Entry(i4)
+        tipoProduto= Label(i3,text='Tipo de produto',bg='white',font=15)
+        tipoProdutoE=Entry(i3)
         tipoProduto.pack()
         tipoProdutoE.pack()
 
             
-        precoProduto=Label(i4,text='Valor do produto',bg='white',font=15)
-        precoProdutoE=Entry(i4)
+        precoProduto=Label(i3,text='Valor do produto',bg='white',font=15)
+        precoProdutoE=Entry(i3)
         precoProduto.pack()
         precoProdutoE.pack()
         def SalvarCadastro():
+            novoAlimento={}
             if not alimentoE.get() in dicionarioAlimento:
                 dicionarioAlimento[alimentoE.get()]=(qntAlimentoE.get(),validadeProdutosE.get(),tipoProdutoE.get(),precoProdutoE.get())
-                guardarElementosArq('alimentos.txt',dicionarioAlimento)
-                i4.destroy()
+                novoAlimento[alimentoE.get()]=(qntAlimentoE.get(),validadeProdutosE.get(),tipoProdutoE.get(),precoProdutoE.get())
+                guardarElementosArq('alimentosTotais.txt',novoAlimento)
+                aviso=Label(i3,text='Alimento cadastrado! ', font=14, bg= 'white')
+                aviso.pack()
+        def sair():
+            i3.destroy()
                 
             
-        bCadastro=Button(i4,text='Salvar',command=SalvarCadastro)
+        bCadastro=Button(i3,text='Salvar',command=SalvarCadastro)
+        bSair=Button(i3,text='Sair',command=sair)
         bCadastro.pack()
-        i4.pack()
+        bSair.pack()
+        i3.pack()
 
     '------------CARDAPIO DO DIA -------------'
     def cardarpioDia():
         def lanche():
             listaAlimento=[]
             listaBebida=[]
-            for bebida in dicionarioAlimento:
-                if dicionarioAlimento[bebida][2]=='bebida' :
-                    listaBebida.append(bebida)
-            for alimento in dicionarioAlimento:
-                if dicionarioAlimento[alimento][2]== 'lanche' :
-                    listaAlimento.append(alimento)
+            for x in dicionarioAlimento:
+                if dicionarioAlimento[x][2]=='bebida' :
+                    listaBebida.append(x)
+                if dicionarioAlimento[x][2]== 'lanche' :
+                    listaAlimento.append(x)
+            a=random.choice(listaBebida)
+            b=random.choice(listaAlimento)
+
+            def escolha():
+                now = datetime.now()
+                hora=str(now)
+                arq= open('alimentoMensal.txt','a')
+                arq.writelines(a)
+                arq.write('--')
+                arq.writelines(b)
+                arq.write('--')
+                arq.writelines(hora)
+                arq.write('\n')
+
+                i3.destroy()
+                arq.close()
+
 
                      
-            material=Label(i5,text='O cardapio será:',bg='white',fg='black',font=13)
-            receitaBebida=Label(i5,text=random.choice(listaBebida),bg='white',fg='black')
-            receitaComida=Label(i5,text=random.choice(listaAlimento),bg='white',fg='black')
-            Salvar= Button(i5,text='Salvar', command=guardarElementoArq('alimento.txt',dicionarioAlimento))
+            material=Label(i3,text='O cardapio será:',bg='white',fg='black',font=13)
+            receitaBebida=Label(i3,text=a,bg='white',fg='black')
+            receitaComida=Label(i3,text=b,bg='white',fg='black')
+            Salvar= Button(i3,text='Salvar', command=escolha)
             
             material.pack()
             receitaComida.pack()
             receitaBebida.pack()
             Salvar.pack()
-        def Almoco():
-            print(dicionarioAlimento)
+
             
+        def Almoco():
+
             listaAlimento=[]
             listaBebida=[]
             listaCarne=[]
-            for bebida in dicionarioAlimento:
-                if dicionarioAlimento[bebida][2]=='bebida' :
-                    listaBebida.append(bebida)
-            for alimento in dicionarioAlimento:
-                if dicionarioAlimento[alimento][2]== 'almoco' :
-                    listaAlimento.append(alimento)
-            for carne in dicionarioAlimento:
-                if dicionarioAlimento[carne][2] =='carne' :
-                    listaCarne.append(carne)
-            print(listaBebida,listaAlimento,listaCarne)
+            for x in dicionarioAlimento:
+                if dicionarioAlimento[x][2]=='bebida' :
+                    listaBebida.append(x)
+                if dicionarioAlimento[x][2]== 'almoco' :
+                    listaAlimento.append(x)
+                if dicionarioAlimento[x][2] =='carne' :
+                    listaCarne.append(x)
+            
             a=random.choice(listaBebida)
             b=random.choice(listaAlimento)
             c=random.choice(listaCarne)
+            d=random.choice(listaAlimento)
+            
             def escolha():
-                guardarElementoArq('alimentoMensal.txt',dicionarioAlimento)
+                now = datetime.now()
+                hora=str(now)
+                print(hora)
+                arq= open('alimentoMensal.txt','a')
+                arq.writelines(a)
+                arq.write('--')
+                arq.writelines(b)
+                arq.write('--')
+                arq.writelines(c)
+                arq.write('--')
+                arq.writelines(d)
+                arq.writelines('--')
+                arq.writelines(hora)
+                arq.write('\n')
+
                 
-            material=Label(i5,text='O Almoço  será:',bg='white',fg='black',font=13)
-            receitaBebida=Label(i5,text=a ,bg='white',fg='black',font=13)
-            receitaComida=Label(i5,text=b ,bg='white',fg='black',font=13)
-            receitaCarne= Label(i5,text=c ,bg='white',fg='black',font=13)
-            Salvar= Button(i5,text='Salvar', command=escolha)
+                aviso= Label(i3,text='Salvo')
+                aviso.pack()
+                i3.destroy()
+                arq.close()
+                
+            material=Label(i3,text='O Almoço  será:',bg='white',fg='black',font=13)
+            receitaBebida=Label(i3,text=a ,bg='white',fg='black',font=13)
+            receitaComida=Label(i3,text=b ,bg='white',fg='black',font=13)
+            receitaComida2=Label(i3,text=d ,bg='white',fg='black',font=13)
+            receitaCarne= Label(i3,text=c ,bg='white',fg='black',font=13)
+            Salvar= Button(i3,text='Salvar', command=escolha)
+
+            
             material.pack()
             receitaComida.pack()
             receitaBebida.pack()
             receitaCarne.pack()
             Salvar.pack()
+
+            
         def jantar():
             listaAlimento=[]
             listaBebida=[]
             listaCarne=[]
-            for bebida in dicionarioAlimento:
-                if dicionarioAlimento[bebida][2]=='bebidas' :
-                    listaBebida.append(bebida)
-            for alimento in dicionarioAlimento:
-                if dicionarioAlimento[alimento][2]== 'jantar' :
-                    listaAlimento.append(alimento)
-            for carne in dicionarioAlimento:
-                if dicionarioAlimento[carne][2] =='carne' :
-                    listaCarne.append(carne)
+            for x in dicionarioAlimento:
+                if dicionarioAlimento[x][2]=='bebidas' :
+                    listaBebida.append(x)
+                if dicionarioAlimento[x][2]== 'jantar' :
+                    listaAlimento.append(x)
+                if dicionarioAlimento[x][2] =='carne' :
+                    listaCarne.append(x)
+
+                      
+            a=random.choice(listaBebida)
+            b=random.choice(listaAlimento)
+            c=random.choice(listaCarne)
+
+            def escolha():
+                now = datetime.now()
+                hora=str(now)
+                print(hora)
+                arq= open('alimentoMensal.txt','a')
+                arq.writelines(a)
+                arq.write('--')
+                arq.writelines(b)
+                arq.write('--')
+                arq.writelines(c)
+                arq.write('--')
+                arq.writelines(hora)
+                arq.write('\n')
+ 
+                aviso= Label(i3,text='Salvo')
+                aviso.pack()
+                i3.destroy()
+                arq.close()
+
 
                                  
-            material=Label(i5,text='O Jantar será:',bg='white',fg='black',font=13)
-            receitaBebida=Label(i5,text=random.choice(listaBebida),bg='white',fg='black',font=13)
-            receitaComida=Label(i5,text=random.choice(listaAlimento),bg='white',fg='black',font=13)
-            receitaCarne= Label(i5,text=random.choice(listaCarne),bg='white',fg='black',font=13)
-            Salvar= Button(i5,text='Salvar', command=guardarElementoArq('alimento.txt',dicionarioAlimento))
+            material=Label(i3,text='O Jantar será:',bg='white',fg='black',font=13)
+            receitaBebida=Label(i3,text=a ,bg='white',fg='black',font=13)
+            receitaComida=Label(i3,text=b ,bg='white',fg='black',font=13)
+            receitaCarne= Label(i3,text=c ,bg='white',fg='black',font=13)
+            Salvar= Button(i3,text='Salvar', command=escolha)
             
         
             
 
                            
-        i5 = Frame(i2,bg='white')
-        bCafe= Button(i5,text='Café da manha ',command=lanche)
-        bAlmoco= Button(i5,text='Almoço', command=Almoco)
-        bJantar= Button(i5,text='Jantar',command=jantar)
-        bLanche= Button(i5,text='Lanche',command=lanche)
+        i3 = Frame(i2,bg='white')
+        bCafe= Button(i3,text='Café da manha ',command=lanche)
+        bAlmoco= Button(i3,text='Almoço', command=Almoco)
+        bJantar= Button(i3,text='Jantar',command=jantar)
+        bLanche= Button(i3,text='Lanche',command=lanche)
         bCafe.pack()
         bJantar.pack()
         bLanche.pack()
         bAlmoco.pack()
-        i5.pack()
+        i3.pack()
 
         
    
     def listaProdutos():
-        arquivo= open('alimentos.txt','r')
-        i6= Frame(i2,bg='white')
+        arquivo= open('alimentosTotais.txt','r')
+        i3= Frame(i2,bg='white')
         for elemento in arquivo:
-            nomeAlimento=Label(i6,text=elemento,bg='white')
-            pularLinha=Label(i6,text='\n',bg='white')
+            nomeAlimento=Label(i3,text=elemento,bg='white')
             nomeAlimento.pack()
-            pularLinha.pack()
+            
         arquivo.close()
-        i6.pack()
+        i3.pack()
         
 
 
@@ -347,17 +422,13 @@ def entrarLogin():
         bVerCardapio= Button(frameI2, text= 'Cardapio mensal')#FALTA
         bVerCardapio.pack(side= LEFT,padx= 2,pady=3)
 
-        bListaProdutos =Button(frameI2, text= 'Lista de produtos ')#FALTA
+        bListaProdutos =Button(frameI2, text= 'Lista de produtos ',command=listaProdutos)#FALTA
         bListaProdutos.pack(side= LEFT,padx= 2,pady=4)
 
-        bProdutosUtilizados= Button(frameI2,text= 'Produtos utilizados' )#FALTA
-        bProdutosUtilizados.pack(side= LEFT,padx= 2,pady=5)
 
         bAdicionarProdutos= Button(frameI2,text= 'Cadastro de Alimentos',command=cadastroAlimentos)
         bAdicionarProdutos.pack(side= LEFT,padx= 1,pady=6)
 
-        bProdDisponiveis= Button(frameI2,text= 'Produtos disponiveis ')#FALTA
-        bProdDisponiveis.pack(side= LEFT,padx= 1,pady=7)
 
         frameI2.pack(side= TOP, fill=X)
         subMenu= Menu(i2)
@@ -465,3 +536,5 @@ i1.mainloop()
 stringArq=guardarArqEmStr('usuarios.txt')
 x=criptografarArq(stringArq)
 guardarArqCrip(x)
+
+
