@@ -1,3 +1,4 @@
+
 """ Universidade federal de Pernambuco (UFPE),
 Centro de informatica (CIn)
 Graduando em Gestão da informação
@@ -229,11 +230,12 @@ def entrarLogin():
         def lanche():
             listaAlimento=[]
             listaBebida=[]
-            for x in dicionarioAlimento:
-                if dicionarioAlimento[x][2]=='bebida' :
-                    listaBebida.append(x)
-                if dicionarioAlimento[x][2]== 'lanche' :
-                    listaAlimento.append(x)
+            
+            for y in dicionarioAlimento:
+                if dicionarioAlimento[y][2]=='bebida' :
+                    listaBebida.append(y)
+                if dicionarioAlimento[y][2]== 'lanche' :
+                    listaAlimento.append(y)
             a=random.choice(listaBebida)
             b=random.choice(listaAlimento)
 
@@ -254,14 +256,15 @@ def entrarLogin():
 
                      
             material=Label(i3,text='O cardapio será:',bg='white',fg='black',font=13)
-            receitaBebida=Label(i3,text=a,bg='white',fg='black')
-            receitaComida=Label(i3,text=b,bg='white',fg='black')
+            receitaBebida=Label(i3,text=a,bg='white',fg='black',font=13)
+            receitaComida=Label(i3,text=b,bg='white',fg='black',font=13)
             Salvar= Button(i3,text='Salvar', command=escolha)
             
             material.pack()
             receitaComida.pack()
             receitaBebida.pack()
             Salvar.pack()
+            
 
             
         def Almoco():
@@ -285,7 +288,6 @@ def entrarLogin():
             def escolha():
                 now = datetime.now()
                 hora=str(now)
-                print(hora)
                 arq= open('alimentoMensal.txt','a')
                 arq.writelines(a)
                 arq.write('--')
@@ -324,7 +326,7 @@ def entrarLogin():
             listaBebida=[]
             listaCarne=[]
             for x in dicionarioAlimento:
-                if dicionarioAlimento[x][2]=='bebidas' :
+                if dicionarioAlimento[x][2]=='bebida' :
                     listaBebida.append(x)
                 if dicionarioAlimento[x][2]== 'jantar' :
                     listaAlimento.append(x)
@@ -332,14 +334,13 @@ def entrarLogin():
                     listaCarne.append(x)
 
                       
-            a=random.choice(listaBebida)
-            b=random.choice(listaAlimento)
-            c=random.choice(listaCarne)
+            a= random.choice(listaBebida)
+            b= random.choice(listaAlimento)
+            c= random.choice(listaCarne)
 
             def escolha():
                 now = datetime.now()
                 hora=str(now)
-                print(hora)
                 arq= open('alimentoMensal.txt','a')
                 arq.writelines(a)
                 arq.write('--')
@@ -349,20 +350,24 @@ def entrarLogin():
                 arq.write('--')
                 arq.writelines(hora)
                 arq.write('\n')
- 
-                aviso= Label(i3,text='Salvo')
-                aviso.pack()
+
                 i3.destroy()
                 arq.close()
-
-
-                                 
+       
             material=Label(i3,text='O Jantar será:',bg='white',fg='black',font=13)
             receitaBebida=Label(i3,text=a ,bg='white',fg='black',font=13)
             receitaComida=Label(i3,text=b ,bg='white',fg='black',font=13)
             receitaCarne= Label(i3,text=c ,bg='white',fg='black',font=13)
             Salvar= Button(i3,text='Salvar', command=escolha)
+                        
+            material.pack()
+            receitaComida.pack()
+            receitaBebida.pack()
+            receitaCarne.pack()
+            Salvar.pack()
             
+        def sair():
+            i3.destroy()
         
             
 
@@ -372,26 +377,47 @@ def entrarLogin():
         bAlmoco= Button(i3,text='Almoço', command=Almoco)
         bJantar= Button(i3,text='Jantar',command=jantar)
         bLanche= Button(i3,text='Lanche',command=lanche)
+        bSair= Button(i3,text='Sair',command=sair)
+        
         bCafe.pack()
         bJantar.pack()
         bLanche.pack()
         bAlmoco.pack()
+        bSair.pack()
         i3.pack()
 
-        
-   
+
+    '------ ANALISA LISTA PRODUTOS--------'
     def listaProdutos():
-        arquivo= open('alimentosTotais.txt','r')
+        lerProdutos('alimentosTotais.txt')
+
+        
+    '----LER ARQUIVO DOS PRODUTOS---------'
+    def lerProdutos(arq):
+        arquivo= open(arq,'r')
         i3= Frame(i2,bg='white')
         for elemento in arquivo:
-            nomeAlimento=Label(i3,text=elemento,bg='white')
+            nomeAlimento=Label(i3,text=elemento,bg='white',font=14)
             nomeAlimento.pack()
+
+        def sair():
+            i3.destroy()
             
+        fechar= Button(i3,text='Sair',command=sair)
+        fechar.pack()
         arquivo.close()
         i3.pack()
         
+    '--------- ANALISA LISTA DO MES------'
+    def mostrarListaMes():
+        lerProdutos('AlimentoMensal.txt')
 
+    '--------- REMOVER ELEMENTOS DO DICIONARIO------------'#NAO ESQUECER 
+    def removerElementoDict(dicionario): ##NAO ESQUECER
+        print('oi')
 
+    def removerAlimento():
+        removerElementoDict(dicionarioAlimento)
 
         
     if eLogin.get() in dicionarioLogin and eSenha.get() == dicionarioLogin[eLogin.get()][0] and dicionarioLogin[eLogin.get()][3]=='1':
@@ -416,18 +442,23 @@ def entrarLogin():
         bCriarUsuario=Button(frameI2,text='Cadastrar usuario',command=novoCadastro)
         bCriarUsuario.pack(side= LEFT,padx= 2,pady=1)
 
-        bCriarCardapio= Button(frameI2, text = 'Cardapio do dia',command=cardarpioDia)  #FALTA
+        bCriarCardapio= Button(frameI2, text = 'Cardapio do dia',command=cardarpioDia)
         bCriarCardapio.pack(side= LEFT,padx= 2,pady=2)
 
-        bVerCardapio= Button(frameI2, text= 'Cardapio mensal')#FALTA
+        bVerCardapio= Button(frameI2, text= 'Cardapio mensal',command=mostrarListaMes)
         bVerCardapio.pack(side= LEFT,padx= 2,pady=3)
 
-        bListaProdutos =Button(frameI2, text= 'Lista de produtos ',command=listaProdutos)#FALTA
+        bListaProdutos =Button(frameI2, text= 'Lista de produtos ',command=listaProdutos)
         bListaProdutos.pack(side= LEFT,padx= 2,pady=4)
 
 
         bAdicionarProdutos= Button(frameI2,text= 'Cadastro de Alimentos',command=cadastroAlimentos)
         bAdicionarProdutos.pack(side= LEFT,padx= 1,pady=6)
+
+        bRemoverAlimento= Button(frameI2, text= 'Remover alimentos da lista') #FALTA
+        bRemoverAlimento.pack(side=LEFT,padx=2,pady=5)
+
+        bRemoverUsuario= Button(frameI2,text='Remover usuario') #FALTA
 
 
         frameI2.pack(side= TOP, fill=X)
@@ -536,5 +567,6 @@ i1.mainloop()
 stringArq=guardarArqEmStr('usuarios.txt')
 x=criptografarArq(stringArq)
 guardarArqCrip(x)
+
 
 
