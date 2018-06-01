@@ -10,6 +10,8 @@ Data: 24/05/2018"""
 from datetime import datetime
 from tkinter import *
 import random
+
+
 #Aprender a colocar foto
 
 
@@ -17,6 +19,9 @@ import random
 
 
 def guardarArqCrip(x):
+
+    ''' função de guardar o eleemnto criptografado no arquivo '''
+    
     arquivo=open('criptografia.txt','w')
     
     for elemento in x:
@@ -40,6 +45,8 @@ def lerChave(arq):
     return listaElementos
 
 def criptografarArq(string):
+    '''função de criptografar a string '''
+    
     y=''
     numerosY=''
     lista=lerChave('chavePublica.txt')
@@ -50,6 +57,8 @@ def criptografarArq(string):
 
 
 def descriptografarArq(stringCrip):
+    '''função de descriptografar a string '''
+    
     textoNovo=''
     lista=lerChave('chavePrivada.txt')
     n=''
@@ -63,6 +72,7 @@ def descriptografarArq(stringCrip):
 
 
 def guardarArqEmStr(arq):
+    
     arquivo=open(arq,'r')
     stringElementos= arquivo.read()
     arquivo.close()
@@ -90,6 +100,8 @@ def guardarElementosArq(arq,dicionario):
 
     
 '----------REESCREVER OS ELEMENTOS NO DICT --------------'
+
+
 def reescreverElementosDict(arq):
     arquivo = open(arq,'r')
     dicionario={}
@@ -109,7 +121,69 @@ def reescreverElementosDict(arq):
     arquivo.close()
     return dicionario
 
+'--------- RECUPERAR A SENHA ------------'
 
+def recuperarSenha():
+    def sair():
+        i4.destroy()
+        
+
+    def acharUsuario():
+        def salvar():
+            if eNovaSenha.get() == eConfirmaSenha.get():
+                dicionarioLogin[sLogin.get()][2]=eNovaSenha.get()
+                texto['text']='Senha cadastrada'
+            else:
+                texto['text']='A senha não está igual'
+                
+                
+        if sLogin.get() in dicionarioLogin and dicionarioLogin[sLogin.get()][2]== sChave.get():
+            frame1=Frame(i4)
+            novaSenha=Label(frame1,text='Digite a nova senha ')
+            eNovaSenha= Entry(frame1)
+            confirmaSenha=Label(frame1,text='digite novamente')
+            eConfirmaSenha=Entry(frame1)
+            bSalvar= Button(i4,text='salvar',command=salvar)
+
+            texto=Label(frame1,text='')
+
+            novaSenha.pack()
+            eNovaSenha.pack()
+            confirmaSenha.pack()
+            eConfirmaSenha.pack()
+            bSalvar.pack()
+        else:
+            aviso['text']='Login ou chave passe chave errados'
+            
+    i4=Tk()
+    i4.title('OnFood')
+    i4.geometry('350x350')
+
+    login=Label(i4,text='Login')
+    sLogin=Entry(i4)
+
+    login.pack()
+    sLogin.pack()
+
+    chave=Label(i4,text='palavra chave')
+    sChave=Entry(i4)
+
+    chave.pack()
+    sChave.pack()
+
+    bSalvar= Button (i4,text='Entrar',command=acharUsuario)
+    bSalvar.pack()
+
+    bSair= Button(i4,text='sair',command=sair)
+    bSair.pack()
+
+    aviso= Label(i4,text='')
+    aviso.pack()
+
+    
+    i4.mainloop()
+    
+    
     
 '--------- DICIONARIOS---------------'
 
@@ -121,7 +195,6 @@ dicionarioAlimento=reescreverElementosDict('alimentosTotais.txt')
 
 ####
 '----------- entrar no login ---------------------'
-#####falta analisar os niveis##########
 
 def entrarLogin():
     '---------CADASTRO PESSOAS---------------'
@@ -143,10 +216,10 @@ def entrarLogin():
         cadastroNome.pack()
         eNome=Entry(i3)
         eNome.pack()
-        cadastroIdade=Label(i3,text='Idade',font=14,bg='white')
-        cadastroIdade.pack()
-        eIdade=Entry(i3)
-        eIdade.pack()
+        cadastroChave=Label(i3,text='palavra chave',font=14,bg='white')
+        cadastroChave.pack()
+        eChave=Entry(i3)
+        eChave.pack()
         cadastroNivel=Label(i3,text='Nivel',font=14,bg='white')
         cadastroNivel.pack()
         eNivel=Entry(i3)
@@ -158,9 +231,9 @@ def entrarLogin():
                 Também tem a função de sair, caso o usuario não queira mais cadastrar algum usuario novo'''
             novoUsuario={}
             if not eEmail.get() in dicionarioLogin:
-                dicionarioLogin[eEmail.get()]=(eSenha.get(),eNome.get(),eIdade.get(),eNivel.get())
+                dicionarioLogin[eEmail.get()]=(eSenha.get(),eNome.get(),eChave.get(),eNivel.get())
                 
-                novoUsuario[eEmail.get()]=(eSenha.get(),eNome.get(),eIdade.get(),eNivel.get())
+                novoUsuario[eEmail.get()]=(eSenha.get(),eNome.get(),eChave.get(),eNivel.get())
                 guardarElementosArq('usuarios.txt',novoUsuario)
                 x=Label(i3,text='Usuario Salvo !',bg='white',font=10)
                 x.pack()
@@ -228,6 +301,11 @@ def entrarLogin():
         bCadastro.pack()
         bSair.pack()
         i3.pack()
+
+
+    '------------- UTILIZAR PRODUTOS DO DIA-----------'
+    def utilizarProdutos():
+        ###########################################FALTAAAAAAAA #######################
 
     '------------CARDAPIO DO DIA -------------'
     def cardarpioDia():
@@ -428,6 +506,7 @@ def entrarLogin():
         if elemento in dicionario:
             del dicionario[elemento]
             janela=Tk()
+            janela.title('OnFood')
             aviso= Label(janela, text='Elemento removido')
             bOk=Button(janela,text='ok',command=fechar)
             aviso.pack()
@@ -435,6 +514,7 @@ def entrarLogin():
             janela.mainloop()
         else:
             janela=Tk()
+            janela.title('OnFood')
             aviso= Label(janela, text='Elemento não existe no dicionario')
             bOk=Button(janela,text='ok',command=fechar)
             aviso.pack()
@@ -513,17 +593,17 @@ def entrarLogin():
         bCriarUsuario=Button(frameI2,text='Cadastrar usuario',command=novoCadastro)
         bCriarUsuario.pack(side= LEFT,padx= 2,pady=1)
 
-        bCriarCardapio= Button(frameI2, text = 'Cardapio do dia',command=cardarpioDia)
+        bCriarCardapio= Button(frameI2, text = 'Cardapio do dia',command=cardarpioDia) 
         bCriarCardapio.pack(side= LEFT,padx= 2,pady=2)
 
         bVerCardapio= Button(frameI2, text= 'Cardapio mensal',command=mostrarListaMes)
         bVerCardapio.pack(side= LEFT,padx= 2,pady=3)
 
-        bListaProdutos =Button(frameI2, text= 'Lista de produtos ',command=listaProdutos)
+        bListaProdutos =Button(frameI2, text= 'Lista de produtos ',command=listaProdutos) 
         bListaProdutos.pack(side= LEFT,padx= 2,pady=4)
 
 
-        bAdicionarProdutos= Button(frameI2,text= 'Cadastro de Alimentos',command=cadastroAlimentos)
+        bAdicionarProdutos= Button(frameI2,text= 'Cadastro de Alimentos',command=cadastroAlimentos) 
         bAdicionarProdutos.pack(side= LEFT,padx= 1,pady=6)
 
         bRemoverAlimento= Button(frameI2, text= 'Remover alimentos da lista',command=removerAlimento) 
@@ -532,7 +612,13 @@ def entrarLogin():
         bRemoverUsuario= Button(frameI2,text='Remover usuario',command=removerUsuario) 
         bRemoverUsuario.pack(side=LEFT,padx=2,pady=7)
 
+        bProdutosUtilizados= Button(frameI2,text='Produtos utilizados no dia ',command=utilizarProduto) ####FALTA###### #TODOS OS NIVEIS##
+        bProdutosUtilizados.pack(side=LEFT,padx=2,pady=9)
 
+        bNivelUsuario=Button(frameI2,text='Organizar nivel ') #####FALTA #######
+        bNivelUsuario.pack(side=LEFT,padx=2,pady=8)
+
+        
         frameI2.pack(side= TOP, fill=X)
         subMenu= Menu(i2)
         i2.mainloop()
@@ -554,6 +640,25 @@ def entrarLogin():
         subMenu.add_command(label= 'salvar')
         subMenu.add_separator()
 
+        bCriarCardapio= Button(frameI2, text = 'Cardapio do dia',command=cardarpioDia) 
+        bCriarCardapio.pack(side= LEFT,padx= 2,pady=2)
+
+        bVerCardapio= Button(frameI2, text= 'Cardapio mensal',command=mostrarListaMes)
+        bVerCardapio.pack(side= LEFT,padx= 2,pady=3)
+
+        bListaProdutos =Button(frameI2, text= 'Lista de produtos ',command=listaProdutos)
+        bListaProdutos.pack(side= LEFT,padx= 2,pady=4)
+
+        bAdicionarProdutos= Button(frameI2,text= 'Cadastro de Alimentos',command=cadastroAlimentos) 
+        bAdicionarProdutos.pack(side= LEFT,padx= 1,pady=6)
+
+        bRemoverAlimento= Button(frameI2, text= 'Remover alimentos da lista',command=removerAlimento)
+        bRemoverAlimento.pack(side=LEFT,padx=2,pady=5)
+        
+        frameI2.pack(side= TOP, fill=X)
+        subMenu= Menu(i2)
+        i2.mainloop()
+
 
     elif eLogin.get() in dicionarioLogin and eSenha.get() == dicionarioLogin[eLogin.get()][0] and dicionarioLogin[eLogin.get()][3]=='3':
         i2=Tk()
@@ -572,6 +677,16 @@ def entrarLogin():
         menu.add_cascade(label= 'Opções ', menu = subMenu) 
         subMenu.add_command(label= 'salvar')
         subMenu.add_separator()
+
+        bCriarCardapio= Button(frameI2, text = 'Cardapio do dia',command=cardarpioDia) 
+        bCriarCardapio.pack(side= LEFT,padx= 2,pady=2)
+
+        bListaProdutos =Button(frameI2, text= 'Lista de produtos ',command=listaProdutos)
+        bListaProdutos.pack(side= LEFT,padx= 2,pady=4)
+        
+        frameI2.pack(side= TOP, fill=X)
+        subMenu= Menu(i2)
+        i2.mainloop()
 
     
     else:
@@ -597,7 +712,7 @@ i1.config(menu = menu)
 subMenu= Menu(menu)
 
 menu.add_cascade(label= 'Opções ', menu = subMenu)
-subMenu.add_command(label='recuperar a senha') 
+subMenu.add_command(label='recuperar a senha',command=recuperarSenha) 
 subMenu.add_separator()
 #######
 
