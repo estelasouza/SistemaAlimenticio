@@ -11,7 +11,11 @@ from datetime import datetime
 from tkinter import *
 import random
 #Aprender a colocar foto
+
+
 '---------- criptografia-------------'
+
+
 def guardarArqCrip(x):
     arquivo=open('criptografia.txt','w')
     
@@ -412,14 +416,81 @@ def entrarLogin():
     def mostrarListaMes():
         lerProdutos('AlimentoMensal.txt')
 
+
+
     '--------- REMOVER ELEMENTOS DO DICIONARIO------------'#NAO ESQUECER 
-    def removerElementoDict(dicionario): ##NAO ESQUECER
-        print('oi')
+    def removerElementoDict(dicionario,elemento): ##NAO ESQUECER
+        def fechar():
+            janela.destroy()
 
+        print(elemento)
+        print(dicionario)
+        if elemento in dicionario:
+            del dicionario[elemento]
+            janela=Tk()
+            aviso= Label(janela, text='Elemento removido')
+            bOk=Button(janela,text='ok',command=fechar)
+            aviso.pack()
+            bOk.pack()
+            janela.mainloop()
+        else:
+            janela=Tk()
+            aviso= Label(janela, text='Elemento não existe no dicionario')
+            bOk=Button(janela,text='ok',command=fechar)
+            aviso.pack()
+            bOk.pack()
+            janela.mainloop()
+
+
+    '--------- REMOVER ALIMENTO -----------'    
     def removerAlimento():
-        removerElementoDict(dicionarioAlimento)
+        def sair():
+            i3.destroy()
+        def play():
+            removerElementoDict(dicionarioAlimento,eAlimento.get())
+            
+        i3=Frame(i2,bg='white')
 
+        alimento=Label(i3,text='Digite o alimento que você deseja remover', font=13)
+        eAlimento= Entry(i3)
+        alimento.pack()
+        eAlimento.pack()
+        bLogin=Button(i3,text='Deletar',command=play)
+        bLogin.pack()
+        bSair=Button(i3,text='Sair',command=sair)
+        bSair.pack()
+
+        i3.pack()
         
+     
+
+    '----------- REMOVER USUARIO -------------'
+    def removerUsuario():
+        def sair():
+            i3.destroy()
+
+        def play():
+            removerElementoDict(dicionarioLogin,eLogin.get())
+            
+        i3=Frame(i2,bg='white')
+
+        login=Label(i3,text='Digite o email do usuario que você deseja remover', font=13)
+        eLogin= Entry(i3)
+        login.pack()
+        eLogin.pack()
+        bLogin=Button(i3,text='Deletar',command=play)
+        bLogin.pack()
+        bSair=Button(i3,text='Sair',command=sair)
+        bSair.pack()
+        
+        i3.pack()
+        
+      
+
+
+    '------------------ XXX-----------'
+
+    
     if eLogin.get() in dicionarioLogin and eSenha.get() == dicionarioLogin[eLogin.get()][0] and dicionarioLogin[eLogin.get()][3]=='1':
 
         i2=Tk()
@@ -455,10 +526,11 @@ def entrarLogin():
         bAdicionarProdutos= Button(frameI2,text= 'Cadastro de Alimentos',command=cadastroAlimentos)
         bAdicionarProdutos.pack(side= LEFT,padx= 1,pady=6)
 
-        bRemoverAlimento= Button(frameI2, text= 'Remover alimentos da lista') #FALTA
+        bRemoverAlimento= Button(frameI2, text= 'Remover alimentos da lista',command=removerAlimento) 
         bRemoverAlimento.pack(side=LEFT,padx=2,pady=5)
 
-        bRemoverUsuario= Button(frameI2,text='Remover usuario') #FALTA
+        bRemoverUsuario= Button(frameI2,text='Remover usuario',command=removerUsuario) 
+        bRemoverUsuario.pack(side=LEFT,padx=2,pady=7)
 
 
         frameI2.pack(side= TOP, fill=X)
