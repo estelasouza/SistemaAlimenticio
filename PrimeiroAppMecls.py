@@ -184,7 +184,7 @@ def recuperarSenha():
     i4.mainloop()
     
     
-    
+
 '--------- DICIONARIOS---------------'
 
 ###OS DICIONARIOS ESTÃO SENDO USADAS COMO GLOBAL ###
@@ -252,7 +252,42 @@ def entrarLogin():
         bSair.pack()
          
         i3.pack()
+
+    '------------ PRODUTOS UTILIZADOS NO DIA -----------'
+
+    def produtosUtilizados():
+        def salvar():
+            valor=''
+            novo=''
+            qnt=int(eQntProduto.get())
+            if eProduto.get() in dicionarioAlimento:
+                valor=int(dicionarioAlimento[eProduto.get()][0])
+                novo= valor-qnt
+                dicionarioAlimento[eProduto.get()][0]=str(novo)
+            elif eProduto.get() not in dicionarioAlimento:
+                aviso['text']='Alimento não cadastrado'
+                
+        def sair():
+            i3.destroy()
             
+        
+        i3= Frame(i2, bg = 'white' )
+        produto= Label (i3, text='Digite o nome do produtos ',font=13,bg='white')
+        eProduto=Entry(i3)
+        qntProduto=Label(i3,text='Quantida de produto utilizado', font= 13,bg='white')
+        eQntProduto= Entry(i3)
+        produto.pack()
+        eProduto.pack()
+        qntProduto.pack()
+        eQntProduto.pack()
+        salvar = Button(i3, text='Salvar', command= salvar,bg='white')
+        sair = Button(i3, text='Sair',command= sair )
+        aviso = Label(i3,text='',bg='white')
+        aviso.pack()
+        salvar.pack()
+        sair.pack()
+        i3.pack()
+        
     '-------- CADASTRO ALIMENTOS---------'
     def cadastroAlimentos(): 
         ''' É possivel cadastrar um novo alimento '''
@@ -303,9 +338,7 @@ def entrarLogin():
         i3.pack()
 
 
-    '------------- UTILIZAR PRODUTOS DO DIA-----------'
-    def utilizarProdutos():
-        ###########################################FALTAAAAAAAA #######################
+
 
     '------------CARDAPIO DO DIA -------------'
     def cardarpioDia():
@@ -612,7 +645,7 @@ def entrarLogin():
         bRemoverUsuario= Button(frameI2,text='Remover usuario',command=removerUsuario) 
         bRemoverUsuario.pack(side=LEFT,padx=2,pady=7)
 
-        bProdutosUtilizados= Button(frameI2,text='Produtos utilizados no dia ',command=utilizarProduto) ####FALTA###### #TODOS OS NIVEIS##
+        bProdutosUtilizados= Button(frameI2,text='Produtos utilizados no dia ',command=produtosUtilizados) ####FALTA###### #TODOS OS NIVEIS##
         bProdutosUtilizados.pack(side=LEFT,padx=2,pady=9)
 
         bNivelUsuario=Button(frameI2,text='Organizar nivel ') #####FALTA #######
