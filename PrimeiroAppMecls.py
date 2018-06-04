@@ -1,4 +1,5 @@
 
+
 """ Universidade federal de Pernambuco (UFPE),
 Centro de informatica (CIn)
 Graduando em Gestão da informação
@@ -130,8 +131,13 @@ def recuperarSenha():
 
     def acharUsuario():
         def salvar():
+            lista=[]
             if eNovaSenha.get() == eConfirmaSenha.get():
+                for x in dicionarioLogin[sLogin.get()]:
+                    lista.append(x)
+                dicionarioLogin[sLogin.get()]=lista
                 dicionarioLogin[sLogin.get()][2]=eNovaSenha.get()
+                dicionarioLogin[sLogin.get()]=tuple(lista)
                 texto['text']='Senha cadastrada'
             else:
                 texto['text']='A senha não está igual'
@@ -143,15 +149,17 @@ def recuperarSenha():
             eNovaSenha= Entry(frame1)
             confirmaSenha=Label(frame1,text='digite novamente')
             eConfirmaSenha=Entry(frame1)
-            bSalvar= Button(i4,text='salvar',command=salvar)
+            bSalvar= Button(frame1,text='salvar',command=salvar)
 
             texto=Label(frame1,text='')
+            texto.pack()
 
             novaSenha.pack()
             eNovaSenha.pack()
             confirmaSenha.pack()
             eConfirmaSenha.pack()
             bSalvar.pack()
+            frame1.pack()
         else:
             aviso['text']='Login ou chave passe chave errados'
             
@@ -529,13 +537,11 @@ def entrarLogin():
 
 
 
-    '--------- REMOVER ELEMENTOS DO DICIONARIO------------'#NAO ESQUECER 
-    def removerElementoDict(dicionario,elemento): ##NAO ESQUECER
+    '--------- REMOVER ELEMENTOS DO DICIONARIO------------'#NAO ESQUECER #######
+    def removerElementoDict(dicionario,elemento): ##NAO ESQUECER#################
         def fechar():
             janela.destroy()
 
-        print(elemento)
-        print(dicionario)
         if elemento in dicionario:
             del dicionario[elemento]
             janela=Tk()
@@ -568,12 +574,62 @@ def entrarLogin():
         eAlimento= Entry(i3)
         alimento.pack()
         eAlimento.pack()
+
+        
         bLogin=Button(i3,text='Deletar',command=play)
         bLogin.pack()
+
+        
         bSair=Button(i3,text='Sair',command=sair)
         bSair.pack()
 
         i3.pack()
+
+
+    '--------- NIVEL DO USUARIO -------------'
+    def mudarNivel():
+        def salvar():
+            lista=[]
+            
+            if usuarioE.get() in dicionarioLogin :
+                for x in dicionarioLogin[usuarioE.get()]:
+                    lista.append(x)
+                dicionarioLogin[usuarioE.get()]=lista 
+                dicionarioLogin[usuarioE.get()][3]= nivelE.get()
+                dicionarioLogin[usuarioE.get()]=tuple(lista)
+                resposta['text']='Novo nivel salvo!'
+                
+
+            elif usuarioE.get() not in dicionarioLogin:
+                resposta['text']='Usuario não encotrado'
+                
+        def sair():
+            i3.destroy()
+
+                
+        i3= Frame(i2)
+        usuario = Label(i3, text='Digite o usuario', bg= 'white',font=14)
+        usuarioE= Entry(i3)
+    
+        usuario.pack()
+        usuarioE.pack()
+
+        nivel= Label(i3, text= 'Digite o novo nivel', bg= 'white',font=14)
+        nivelE=Entry(i3)
+
+        nivel.pack()
+        nivelE.pack()
+
+        salvar= Button(i3,text='Salvar',command=salvar)
+        salvar.pack()
+
+        sair= Button(i3,text='sair',command=sair)
+        sair.pack()
+
+        resposta=Label(i3,text='',bg='white',font=14)
+        resposta.pack()
+        i3.pack()
+        
         
      
 
@@ -645,10 +701,10 @@ def entrarLogin():
         bRemoverUsuario= Button(frameI2,text='Remover usuario',command=removerUsuario) 
         bRemoverUsuario.pack(side=LEFT,padx=2,pady=7)
 
-        bProdutosUtilizados= Button(frameI2,text='Produtos utilizados no dia ',command=produtosUtilizados) ####FALTA###### #TODOS OS NIVEIS##
+        bProdutosUtilizados= Button(frameI2,text='Produtos utilizados no dia ',command=produtosUtilizados) ####FALTA###### #TODOS OS NIVEIS## ### FALTA REMOVER DA LISTA .TXT### 
         bProdutosUtilizados.pack(side=LEFT,padx=2,pady=9)
 
-        bNivelUsuario=Button(frameI2,text='Organizar nivel ') #####FALTA #######
+        bNivelUsuario=Button(frameI2,text='Mudar o nivel do usuario',command=mudarNivel) #####FALTA #######
         bNivelUsuario.pack(side=LEFT,padx=2,pady=8)
 
         
@@ -687,7 +743,10 @@ def entrarLogin():
 
         bRemoverAlimento= Button(frameI2, text= 'Remover alimentos da lista',command=removerAlimento)
         bRemoverAlimento.pack(side=LEFT,padx=2,pady=5)
-        
+
+        bProdutosUtilizados= Button(frameI2,text='Produtos utilizados no dia ',command=produtosUtilizados) ####FALTA###### #TODOS OS NIVEIS## ### FALTA REMOVER DA LISTA .TXT### 
+        bProdutosUtilizados.pack(side=LEFT,padx=2,pady=9)
+
         frameI2.pack(side= TOP, fill=X)
         subMenu= Menu(i2)
         i2.mainloop()
@@ -716,7 +775,10 @@ def entrarLogin():
 
         bListaProdutos =Button(frameI2, text= 'Lista de produtos ',command=listaProdutos)
         bListaProdutos.pack(side= LEFT,padx= 2,pady=4)
-        
+
+        bProdutosUtilizados= Button(frameI2,text='Produtos utilizados no dia ',command=produtosUtilizados) ####FALTA###### #TODOS OS NIVEIS## ### FALTA REMOVER DA LISTA .TXT### 
+        bProdutosUtilizados.pack(side=LEFT,padx=2,pady=9)
+
         frameI2.pack(side= TOP, fill=X)
         subMenu= Menu(i2)
         i2.mainloop()
