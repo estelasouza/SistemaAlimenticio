@@ -1,0 +1,6 @@
+arroz-9-1/01-almoco-10
+feijao-12-1/01-almoco-10
+frango-12-1/01-almoco-10
+pao-12-1/01-lanche-10
+queijo-12-1/01-lanche-10
+suco de uva-12-1/01-bebida-10
