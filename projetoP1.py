@@ -137,7 +137,9 @@ dicionarioAlimento=reescreverElementosDict('alimentosTotais.txt')
 
 ####
 '-------- REESCREVER DICT-----------'
+
 def reescreverDict(arq,dicionario):
+    
     arquivo=open(arq,'w')
     for chaves in dicionario:     
         arquivo.writelines(chaves)
@@ -176,7 +178,7 @@ def entrarLogin():
     ##LOGIN:(SENHA,NOME,IDADE,NIVEL)##
     def novoCadastro():   
         '''nessa função é possivel cadastrar um novo usuario'''
-
+        
         i3=Frame(i2,bg='white')
         fonte=('Arial','10')
         cadastroEmail=Label(i3,text='Login',font=14,bg='white')
@@ -274,7 +276,7 @@ def entrarLogin():
         aviso.pack()
         salvar.pack()
         sair.pack()
-        i3.pack()
+        i3.pack(fill= BOTH)
         
     '-------- CADASTRO ALIMENTOS---------'
     def cadastroAlimentos(): 
@@ -323,7 +325,7 @@ def entrarLogin():
         bSair=Button(i3,text='Sair',command=sair,width=5,height=2)
         bCadastro.pack()
         bSair.pack()
-        i3.pack()
+        i3.pack(fill= BOTH)
 
 
 
@@ -486,7 +488,7 @@ def entrarLogin():
         bLanche.pack(side=LEFT)
         bAlmoco.pack(side=LEFT)
         bSair.pack(side=LEFT)
-        i3.pack()
+        i3.pack(fill= BOTH)
 
 
     '------ ANALISA LISTA PRODUTOS--------'
@@ -566,7 +568,7 @@ def entrarLogin():
         bSair=Button(i3,text='Sair',command=sair,width=5,height=2)
         bSair.pack()
 
-        i3.pack()
+        i3.pack(fill= BOTH)
 
 
     '--------- NIVEL DO USUARIO -------------'
@@ -612,7 +614,7 @@ def entrarLogin():
 
         resposta=Label(i3,text='',bg='white',font=14)
         resposta.pack()
-        i3.pack()
+        i3.pack(fill= BOTH)
         
         
      
@@ -636,7 +638,7 @@ def entrarLogin():
         bSair=Button(i3,text='Sair',command=sair,width=5,height=2)
         bSair.pack()
         
-        i3.pack()
+        i3.pack(fill= BOTH)
         
     '---------- sair-------------'
     def sair():
@@ -672,7 +674,7 @@ def entrarLogin():
 
         mostrar.pack()
 
-        i3.pack()
+        i3.pack(fill= BOTH)
     '------------------ XXX-----------'
 
     
