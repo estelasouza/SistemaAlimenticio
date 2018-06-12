@@ -154,9 +154,29 @@ def reescreverDict(arq,dicionario):
         
         arquivo.write('\n')
 
+
     arquivo.close()
+
+'--------- ordenar elemento ------------------'
+def ordenarElemento():
+    arq= open('listaOrd.txt','a')
+    lista=sorted(dicionarioLogin)
+    for x in lista:
+        if x in dicionarioLogin:
+            arq.readlines(x)
+            arq.readlines('--')
+            arq.readlines(dicionarioLogin[x][0])
+            arq.readlines('--')
+            arq.readlines(dicionarioLogin[x][1])
+            arq.readlines('--')
+            arq.readlines(dicionarioLogin[x][2])
+            arq.readlines('--')
+            arq.readlines(dicionarioLogin[x][3])
+
+            arq.readlines('\n')
+    arq.close()
 '----------- entrar no login ---------------------'
-    
+
 def entrarLogin():
     def loginLogout(string):
 
@@ -846,7 +866,7 @@ def recuperarSenha():
                 
         if sLogin.get() in dicionarioLogin and dicionarioLogin[sLogin.get()][2]== sChave.get():
 
-            
+        
             frame1=Frame(i4)
             fontePadrao=('Arial','10')
             novaSenha=Label(frame1,text='Digite a nova senha ')
@@ -867,7 +887,7 @@ def recuperarSenha():
             confirmaSenha.pack()
             eConfirmaSenha.pack()
             bSalvar.pack()
-            frame1.pack()
+            frame1.pack(fill=BOTH)
         else:
             aviso['text']='Login ou chave passe chave errados'
             
@@ -911,7 +931,6 @@ i1.configure(bg='yellow')
 fontePadrao=('Arial','10')
 
 
-
 menu = Menu(i1)
 
 i1.config(menu = menu)
@@ -943,12 +962,6 @@ eSenha["show"] = "*"
 
 bEntrar= Button(i1,text='Entrar',command=entrarLogin,width=10)
 bEntrar.place(x=50,y=190)
-
-##tentar!!!
-#fotoInicio= PhotoImage(file='C:Users\br\Desktop\projetoMecls\food.png')
-#labelImg= Label(i1,image = fotoInicio,text='aq')
-#labelImg.pack()
-## É A IMAGEM
 
 
 textoResposta=Label(i1,text='',bg='yellow')
