@@ -1,5 +1,3 @@
-
-
 """ Universidade federal de Pernambuco (UFPE),
 Centro de informatica (CIn)
 Graduando em Gestão da informação
@@ -13,9 +11,7 @@ from tkinter import *
 import random
 
 
-#Aprender a colocar foto
 
-#FALTA O LOG##
 
 
 '---------- criptografia-------------'
@@ -137,9 +133,7 @@ dicionarioAlimento=reescreverElementosDict('alimentosTotais.txt')
 
 ####
 '-------- REESCREVER DICT-----------'
-
 def reescreverDict(arq,dicionario):
-    
     arquivo=open(arq,'w')
     for chaves in dicionario:     
         arquivo.writelines(chaves)
@@ -154,51 +148,31 @@ def reescreverDict(arq,dicionario):
         
         arquivo.write('\n')
 
-
     arquivo.close()
+'----------- entrar no login ---------------------'    
 
-'--------- ordenar elemento ------------------'
-def ordenarElemento():
-    arq= open('listaOrd.txt','a')
-    lista=sorted(dicionarioLogin)
-    for x in lista:
-        if x in dicionarioLogin:
-            arq.readlines(x)
-            arq.readlines('--')
-            arq.readlines(dicionarioLogin[x][0])
-            arq.readlines('--')
-            arq.readlines(dicionarioLogin[x][1])
-            arq.readlines('--')
-            arq.readlines(dicionarioLogin[x][2])
-            arq.readlines('--')
-            arq.readlines(dicionarioLogin[x][3])
+def registroEntrada(string,arq):
 
-            arq.readlines('\n')
-    arq.close()
-'----------- entrar no login ---------------------'
-
-def entrarLogin():
-    def loginLogout(string):
-
-        now= datetime.now()
-        hora=str(now)
-        login=dicionarioLogin[eLogin.get()][0]
-        arq= open('loginLogout.txt','a')
-        arq.writelines(string)
-        arq.writelines('--------')
-        arq.writelines(login)
-        arq.writelines('--------')
-        arq.writelines(hora)
-        arq.writelines('\n')
+    now= datetime.now()
+    hora=str(now)
+    login=dicionarioLogin[eLogin.get()][0]
+    arq= open(arq,'a')
+    arq.writelines(string)
+    arq.writelines('--------')
+    arq.writelines(login)
+    arq.writelines('--------')
+    arq.writelines(hora)
+    arq.writelines('\n')
         
-        arq.close()
-
+    arq.close()
+def entrarLogin(evento=0):
+ 
 
     '---------CADASTRO PESSOAS---------------'
     ##LOGIN:(SENHA,NOME,IDADE,NIVEL)##
     def novoCadastro():   
         '''nessa função é possivel cadastrar um novo usuario'''
-        
+
         i3=Frame(i2,bg='white')
         fonte=('Arial','10')
         cadastroEmail=Label(i3,text='Login',font=14,bg='white')
@@ -234,6 +208,7 @@ def entrarLogin():
                 
                 novoUsuario[eEmail.get()]=(eSenha.get(),eNome.get(),eChave.get(),eNivel.get())
                 guardarElementosArq('usuarios.txt',novoUsuario)
+                registroEntrada('novo Usuario','registroUso.txt')
                 x=Label(i3,text='Usuario Salvo !',bg='white',font=10)
                 x.pack()
                   
@@ -270,9 +245,10 @@ def entrarLogin():
                 dicionarioAlimento[eProduto.get()]=lista
                 dicionarioAlimento[eProduto.get()][0]=str(novo)
                 dicionarioAlimento[eProduto.get()]=tuple(lista)
-                reescreverDict
-                ('alimentosTotais.txt',dicionarioAlimento)
+                reescreverDict('alimentosTotais.txt',dicionarioAlimento)
                 aviso['text']='Alimento cadastrado'
+                registroEntrada('produtos Utilizdos','registroUso.txt')
+
 
             elif eProduto.get() not in dicionarioAlimento:
                 aviso['text']='Alimento não cadastrado'
@@ -294,9 +270,9 @@ def entrarLogin():
         sair = Button(i3, text='Sair',command= sair ,width=5,height=2)
         aviso = Label(i3,text='',bg='white')
         aviso.pack()
-        salvar.pack()
-        sair.pack()
-        i3.pack(fill= BOTH)
+        salvar.pack(side=LEFT,fill=X)
+        sair.pack(side=LEFT,fill=X)
+        i3.pack()
         
     '-------- CADASTRO ALIMENTOS---------'
     def cadastroAlimentos(): 
@@ -336,6 +312,8 @@ def entrarLogin():
                 novoAlimento[alimentoE.get()]=(qntAlimentoE.get(),validadeProdutosE.get(),tipoProdutoE.get(),precoProdutoE.get())
                 guardarElementosArq('alimentosTotais.txt',novoAlimento)
                 aviso=Label(i3,text='Alimento cadastrado! ', font=14, bg= 'white')
+                registroEntrada('novo Alimento','registroUso.txt')
+
                 aviso.pack()
         def sair():
             i3.destroy()
@@ -343,9 +321,9 @@ def entrarLogin():
             
         bCadastro=Button(i3,text='Salvar',command=SalvarCadastro,width=5,height=2)
         bSair=Button(i3,text='Sair',command=sair,width=5,height=2)
-        bCadastro.pack()
-        bSair.pack()
-        i3.pack(fill= BOTH)
+        bCadastro.pack(side=LEFT,fill=X)
+        bSair.pack(side=LEFT,fill=X)
+        i3.pack()
 
 
 
@@ -374,6 +352,7 @@ def entrarLogin():
                 arq.write('--')
                 arq.writelines(hora)
                 arq.write('\n')
+                registroEntrada('alimento dia','registroUso.txt')
 
                 i3.destroy()
                 arq.close()
@@ -388,7 +367,7 @@ def entrarLogin():
             material.pack()
             receitaComida.pack()
             receitaBebida.pack()
-            Salvar.pack()
+            Salvar.pack(side=LEFT,fill=X)
             
 
             
@@ -486,10 +465,10 @@ def entrarLogin():
             Salvar= Button(i3,text='Salvar', command=escolha,width=5,height=2)
                         
             material.pack()
-            receitaComida.pack()
-            receitaBebida.pack()
-            receitaCarne.pack()
-            Salvar.pack()
+            receitaComida.pack(side=LEFT,fill=Y)
+            receitaBebida.pack(side=LEFT,fill=y)
+            receitaCarne.pack(side=LEFT,fill=Y)
+            Salvar.pack(side=LEFT,fill=X)
             
         def sair():
             i3.destroy()
@@ -508,7 +487,7 @@ def entrarLogin():
         bLanche.pack(side=LEFT)
         bAlmoco.pack(side=LEFT)
         bSair.pack(side=LEFT)
-        i3.pack(fill= BOTH)
+        i3.pack()
 
 
     '------ ANALISA LISTA PRODUTOS--------'
@@ -555,6 +534,8 @@ def entrarLogin():
             bOk=Button(janela,text='ok',command=fechar,width=5,height=2)
             aviso.pack()
             bOk.pack()
+            registroEntrada('remoção elemento','registroUso.txt')
+
             janela.mainloop()
         else:
             janela=Tk()
@@ -588,7 +569,7 @@ def entrarLogin():
         bSair=Button(i3,text='Sair',command=sair,width=5,height=2)
         bSair.pack()
 
-        i3.pack(fill= BOTH)
+        i3.pack()
 
 
     '--------- NIVEL DO USUARIO -------------'
@@ -603,6 +584,8 @@ def entrarLogin():
                 dicionarioLogin[usuarioE.get()][3]= nivelE.get()
                 dicionarioLogin[usuarioE.get()]=tuple(lista)
                 resposta['text']='Novo nivel salvo!'
+                registroEntrada('novo nivel','registroUso.txt')
+
                 reescreverDict('usuarios.txt',dicionarioLogin)
                 
 
@@ -634,7 +617,7 @@ def entrarLogin():
 
         resposta=Label(i3,text='',bg='white',font=14)
         resposta.pack()
-        i3.pack(fill= BOTH)
+        i3.pack()
         
         
      
@@ -647,7 +630,7 @@ def entrarLogin():
         def play():
             removerElementoDict(dicionarioLogin,eLogin.get())
             
-        i3=Frame(frameI2,bg='white')
+        i3=Frame(i2,bg='white')
 
         login=Label(i3,text='Digite o email do usuario que você deseja remover', font=13)
         eLogin= Entry(i3)
@@ -658,12 +641,12 @@ def entrarLogin():
         bSair=Button(i3,text='Sair',command=sair,width=5,height=2)
         bSair.pack()
         
-        i3.pack(fill= BOTH)
+        i3.pack(side=LEFT ,fill=BOTH)
         
     '---------- sair-------------'
     def sair():
         i2.destroy()
-        loginLogout('Logout')
+        registroEntrada('Logout','loginLogout.txt')
 
     '------------------ BUSCAR PRODUTO -------'
     def buscarProduto():
@@ -681,7 +664,7 @@ def entrarLogin():
         produto=Label(i3,text='Digite o produto que deseja encontrar',font=15)
         eProduto=Entry(i3)
         
-        bAchar=Button(i3,text='Procurar',command=achar,width=5,height=2)
+        bAchar=Button(i3,text='Procurar',command=achar,width=6,height=2)
         sair=Button(i3,text='sair',command=sair,width=5,height=2)
 
         mostrar=Label(i3,text='',font=19,bg='white')
@@ -694,12 +677,15 @@ def entrarLogin():
 
         mostrar.pack()
 
-        i3.pack(fill= BOTH)
-    '------------------ XXX-----------'
 
-    
+        i3.pack()
+
+
+        '------------------ XXX-----------'
+
     if eLogin.get() in dicionarioLogin and eSenha.get() == dicionarioLogin[eLogin.get()][0] and dicionarioLogin[eLogin.get()][3]=='1':
-        loginLogout('Login')
+        registroEntrada('Login','loginLogout.txt')
+        i1.destroy()
 
         i2=Tk()
         i2.configure(bg='white')
@@ -758,9 +744,9 @@ def entrarLogin():
 
         
     elif eLogin.get() in dicionarioLogin and eSenha.get() == dicionarioLogin[eLogin.get()][0] and dicionarioLogin[eLogin.get()][3]=='2':
-
+        i1.destroy()
         
-        loginLogout('Login')
+        registroEntrada('Login','loginLogout.txt')
         i2=Tk()
         i2.configure(bg='white')
         i2.title('OnFood')
@@ -803,8 +789,9 @@ def entrarLogin():
 
 
     elif eLogin.get() in dicionarioLogin and eSenha.get() == dicionarioLogin[eLogin.get()][0] and dicionarioLogin[eLogin.get()][3]=='3':
+        i1.destroy()
         
-        loginLogout('Login')
+        registroEntrada('Login','loginLogout.txt')
         i2=Tk()
         i2.configure(bg='white')
         i2.title('OnFood')
@@ -866,7 +853,7 @@ def recuperarSenha():
                 
         if sLogin.get() in dicionarioLogin and dicionarioLogin[sLogin.get()][2]== sChave.get():
 
-        
+            
             frame1=Frame(i4)
             fontePadrao=('Arial','10')
             novaSenha=Label(frame1,text='Digite a nova senha ')
@@ -887,7 +874,7 @@ def recuperarSenha():
             confirmaSenha.pack()
             eConfirmaSenha.pack()
             bSalvar.pack()
-            frame1.pack(fill=BOTH)
+            frame1.pack()
         else:
             aviso['text']='Login ou chave passe chave errados'
             
@@ -931,6 +918,7 @@ i1.configure(bg='yellow')
 fontePadrao=('Arial','10')
 
 
+
 menu = Menu(i1)
 
 i1.config(menu = menu)
@@ -956,7 +944,7 @@ eSenha=Entry(i1)
 eSenha.place(x=50,y=165)
 eSenha["font"] = fontePadrao
 eSenha["show"] = "*"
-
+eSenha.bind('<Return>',entrarLogin )
 
 
 

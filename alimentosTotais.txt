@@ -4,3 +4,8 @@ frango-12-1/01-almoco-10
 pao-12-1/01-lanche-10
 queijo-12-1/01-lanche-10
 suco de uva-12-1/01-bebida-10
+banana-100-10/08-lanche-2,00
+tapioca-100-10/08-lanche-2,00
+suco de beterrada-100-10/08-bebida-2,00
+feijao verde-100-10/08-almoco-2,00
+cuscuz-100-10/08-jantar-2,00
